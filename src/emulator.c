@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
+#include <string.h>
 
 // Types
 typedef unsigned char byte_t;
@@ -97,11 +99,15 @@ byte_t stack_pop() {
 /*
  * Load the game file into memory
  */
-int read_file() {
+int read_file(char *game_name) {
+    char file_path[strlen("c8games/") + strlen(game_name) + 1];
     byte_t buffer[2];
     FILE *file;
 
-    file = fopen("c8games/PONG", "rb");
+    strcpy(file_path, "c8games/");
+    strcat(file_path, game_name);
+
+    file = fopen(file_path, "rb");
 
     word_t i = pc;
     while (fread(buffer, sizeof(buffer), 1, file) != 0) {    
@@ -320,9 +326,16 @@ int complete_cycle() {
     return 1;
 }
 
-int main() {
+int main(int argc, char **argv) {
+    if (argc < 2) {
+        printf("Enter a game name.\n");
+        return -1;
+    }
+    
+    char *game_name = argv[1];
+
     initialize();
-    read_file();
+    read_file(game_name);
 
     for (;;) {
         complete_cycle();
