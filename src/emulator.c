@@ -244,10 +244,11 @@ int complete_cycle() {
     else if ((opcode & 0xF000) == 0xC000) {
         byte_t reg = (opcode & 0xF00) >> 8;
         byte_t val = opcode & 0xFF;
-
-        // TODO: Get random byte (value from 0 to 255)
+        byte_t num = rand() % 256;
 
         printf("%x      v%x=RAND&%x\n", pc, reg, val);
+
+        num = num & val;
     }
     // Draw Sprite
     else if ((opcode & 0xF000) == 0xD000) {
@@ -333,9 +334,12 @@ int main(int argc, char **argv) {
     }
     
     char *game_name = argv[1];
+    time_t t;
 
     initialize();
     read_file(game_name);
+
+    srand((unsigned) time(&t));
 
     for (;;) {
         complete_cycle();
