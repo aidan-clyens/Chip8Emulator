@@ -17,12 +17,14 @@ word_t sp;
 word_t opcode;
 
 // Memory
-byte_t memory[4096];
+byte_t *memory;
 int mem_size;
 
+// Display
+byte_t *display;
+
 // Font Set
-byte_t fontset[80] =
-{
+byte_t fontset[80] = {
   0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
   0x20, 0x60, 0x20, 0x20, 0x70, // 1
   0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
@@ -74,9 +76,11 @@ void print_reg() {
  * Initialize CPU registers
  */
 int initialize() {
+    memory = malloc(4096 * sizeof(byte_t));
+    display = &memory[0x200];
     I = 0;
     pc = 0x0200;
-    sp = 0x003F;
+    sp = 0x0EA0;
     opcode = 0;
 
     delay_timer = 0;
@@ -366,6 +370,8 @@ int main(int argc, char **argv) {
         complete_cycle();
         usleep(1000*50);
     }
+
+    free(memory);
 
     return 0;
 }
