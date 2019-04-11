@@ -4,8 +4,8 @@
 #include <unistd.h>
 #include <string.h>
 
-// Set DEBUG to 1 to print disassembled opcodes
-#define DEBUG   1
+// Uncomment line below to print disassembled opcodes
+#define DEBUG
 
 // Types
 typedef unsigned char byte_t;
@@ -146,7 +146,7 @@ int read_file(char *game_name) {
     }
     mem_size = i;
 
-    #if DEBUG == 1
+    #ifdef DEBUG
     print_mem();
     #endif
 
@@ -166,20 +166,20 @@ int complete_cycle() {
     // Decode opcode
     // No Operation
     if (opcode == 0x0000) {
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      NOP\n", pc);
         #endif
     }
     // Erase Screen
     else if (opcode == 0x00E0) {
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      ERASE\n", pc);
         #endif
         // Clear screen
     }
     // Return from Subroutine
     else if (opcode == 0x00EE) {
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      RETURN\n", pc);
         #endif
 
@@ -193,7 +193,7 @@ int complete_cycle() {
     else if ((opcode & 0xF000) == 0x1000) {
         word_t val = opcode & 0xFFF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      GOTO %x\n", pc, val);
         #endif
 
@@ -203,7 +203,7 @@ int complete_cycle() {
     else if ((opcode & 0xF000) == 0x2000) {
         word_t val = opcode & 0xFFF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      DO %x\n", pc, val);
         #endif
 
@@ -217,7 +217,7 @@ int complete_cycle() {
         byte_t reg = (opcode & 0xF00) >> 8;
         byte_t val = opcode & 0xFF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      SKF v%x=%x\n", pc, reg, val);
         #endif
 
@@ -229,7 +229,7 @@ int complete_cycle() {
         byte_t reg = (opcode & 0xF00) >> 8;
         byte_t val = opcode & 0xFF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      SKF v%x!=%x\n", pc, reg, val);
         #endif
 
@@ -242,7 +242,7 @@ int complete_cycle() {
         byte_t reg = (opcode & 0xF00) >> 8;
         byte_t val = opcode & 0xFF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      MOV v%x, %x\n", pc, reg, val);
         #endif
 
@@ -253,7 +253,7 @@ int complete_cycle() {
         byte_t reg = (opcode & 0xF00) >> 8;
         byte_t val = opcode & 0xFF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      v%x=v%x+%x\n", pc, reg, reg, val);
         #endif
 
@@ -266,7 +266,7 @@ int complete_cycle() {
         
         // Copy VY to VX
         if ((opcode & 0xF00F) == 0x8000) {
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      v%x=v%x\n", pc, regX, regY);
             #endif
 
@@ -274,7 +274,7 @@ int complete_cycle() {
         }
         // Logical OR VX and VY
         else if ((opcode & 0xF00F) == 0x8001) {
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      v%x=v%x|v%x\n", pc, regX, regX, regY);
             #endif
 
@@ -282,7 +282,7 @@ int complete_cycle() {
         }
         // Logical AND VX and VY
         else if ((opcode & 0xF00F) == 0x8002) {
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      v%x=v%x&v%x\n", pc, regX, regX, regY);
             #endif
 
@@ -293,7 +293,7 @@ int complete_cycle() {
     else if ((opcode & 0xF000) == 0xA000) {
         word_t val = opcode & 0xFFF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      MOV I, %x\n", pc, val);
         #endif
 
@@ -305,7 +305,7 @@ int complete_cycle() {
         byte_t val = opcode & 0xFF;
         byte_t num = rand() % 256;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      v%x=RAND&%x\n", pc, reg, val);
         #endif
 
@@ -317,7 +317,7 @@ int complete_cycle() {
         byte_t y = (opcode & 0xF0) >> 4;
         byte_t N = opcode & 0xF;
 
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("%x      SPRITE v%x, v%x, %x\n", pc, x, y, N);
         printf("v[%x] = %x, v[%x] = %x\n", x, v[x], y, v[y]);
 
@@ -336,7 +336,7 @@ int complete_cycle() {
         if ((opcode & 0xF0FF) == 0xE09E) {
             // TODO: Skip if key is down
 
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      SKF v%x=KEY\n", pc, reg);
             #endif
         }
@@ -344,7 +344,7 @@ int complete_cycle() {
         else if ((opcode & 0xF0FF) == 0xE0A1) {
             // TODO: Skip if key is not down
             
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      SKF v%x!=KEY\n", pc, reg);
             #endif
         }
@@ -353,7 +353,7 @@ int complete_cycle() {
         if (opcode == 0xF000) {
             // TODO
             
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      STOP\n", pc);
             #endif
         }
@@ -361,7 +361,7 @@ int complete_cycle() {
         else if ((opcode & 0xF0FF) == 0xF007) {
             byte_t reg = (opcode & 0xF00) >> 8;
 
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      v%x=TIME\n", pc, reg);
             #endif
             
@@ -373,7 +373,7 @@ int complete_cycle() {
 
             // TODO: Get key value
 
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      v%x=KEY\n", pc, reg);
             #endif
         }
@@ -381,7 +381,7 @@ int complete_cycle() {
         else if ((opcode & 0xF0FF) == 0xF015) {
             byte_t reg = (opcode & 0xF00) >> 8;
             
-            #if DEBUG == 1
+            #ifdef DEBUG
             printf("%x      TIME=v%x\n", pc, reg);
             #endif
 
@@ -389,7 +389,7 @@ int complete_cycle() {
         }
     }
     else {
-        #if DEBUG == 1
+        #ifdef DEBUG
         printf("Unknown opcode: %x\n", opcode);
         #endif
     }
