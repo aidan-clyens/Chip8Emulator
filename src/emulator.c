@@ -52,6 +52,9 @@ byte_t key[16];
 // Timers
 byte_t delay_timer;
 
+// Misc.
+int cycle_count;
+
 // Debug
 /*
  * Print memory contents
@@ -87,6 +90,8 @@ int initialize() {
     opcode = 0;
 
     delay_timer = 0;
+
+    cycle_count = 0;
 
     return 1;
 }
@@ -160,8 +165,14 @@ int read_file(char *game_name) {
  * Complete a CPU cycle
  */
 int complete_cycle() {
+    if (--cycle_count > 0) {
+        return;
+    }
+    
     // Get opcode from program memory
     opcode = (memory[pc] << 8) | memory[pc+1];
+
+    cycle_count = 1;
 
     // Decode opcode
     // No Operation
@@ -327,6 +338,7 @@ int complete_cycle() {
         printf("\n");
         #endif
         
+        cycle_count = 4;
         // TODO: Use OpenGL to draw graphics
     }
     else if ((opcode & 0xF000) == 0xE000) {
