@@ -4,20 +4,10 @@
 #include <unistd.h>
 #include <string.h>
 
-// Uncomment line below to print disassembled opcodes
-//#define DEBUG
-
-#define DISPLAY_SIZE    256
-#define SCREEN_WIDTH    64
-#define SCREEN_HEIGHT   32
-
-#define DISPLAY_SPACE   0x100
-#define PROGRAM_SPACE   0x200
-#define STACK_SPACE     0x0EA0
-
-// Types
-typedef unsigned char byte_t;
-typedef unsigned short word_t;
+#include "typedefs.h"
+#include "stack.h"
+#include "file.h"
+#include "debug.h"
 
 // Registers
 byte_t v[16];
@@ -65,27 +55,6 @@ byte_t delay_timer;
 int cycle_count;
 
 // Debug
-/*
- * Print memory contents
- */
-void print_mem() {
-    for (int j = 0; j < mem_size; j++) {
-        printf("%x ", memory[j]);
-    }
-    printf("\n");
-}
-
-/*
- * Print register values
- */
-void print_reg() {
-    for (int j=0; j < sizeof(v); j++) {
-        printf("v%x      %x\n", j, v[j]);
-    }
-    printf("I       %x\n", I);
-    printf("pc      %x\n", pc);
-    printf("sp      %x\n", sp);
-}
 
 /*
  * Initialize CPU registers
@@ -109,77 +78,13 @@ int initialize() {
     return 1;
 }
 
-// Stack
-/*
- * Push to stack
- */
-int stack_push(word_t val) {
-    // If val is a word
-    if (val > 0xFF) {
-        byte_t high = (val & 0xFF00) >> 8;
-        byte_t low = val & 0xFF;
-        
-        sp -= 2;
-        memory[sp] = high;
-        sp -=2;
-        memory[sp] = low;
-    }
-    // If val is a byte
-    else {
-        sp -= 2;
-        memory[sp] = (byte_t) val;
-    }
-}
-
-/*
- * Pop from stack
- */
-byte_t stack_pop() {
-    byte_t val = memory[sp];
-    sp += 2;
-
-    return val;
-}
-
-// File Loading
-/*
- * Load the game file into memory
- */
-int read_file(char *game_name) {
-    char file_path[strlen("c8games/") + strlen(game_name) + 1];
-    byte_t buffer[2];
-    FILE *file;
-
-    strcpy(file_path, "c8games/");
-    strcat(file_path, game_name);
-
-    file = fopen(file_path, "rb");
-
-    word_t i = pc;
-    while (fread(buffer, sizeof(buffer), 1, file) != 0) {    
-        memory[i] = buffer[0];
-        memory[i+1] = buffer[1];
-
-        i += 2;
-    }
-    mem_size = i;
-
-    #ifdef DEBUG
-    print_mem();
-    #endif
-
-    fclose(file);
-
-    return 1;
-}
-
 // CPU
 /*
  * Complete a CPU cycle
  */
 int complete_cycle() {
     if (--cycle_count > 0) {
-        return;
+        return 0;
     }
     
     // Get opcode from program memory
