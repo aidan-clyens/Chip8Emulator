@@ -5,7 +5,15 @@
 #include <string.h>
 
 // Uncomment line below to print disassembled opcodes
-#define DEBUG
+//#define DEBUG
+
+#define DISPLAY_SIZE    256
+#define SCREEN_WIDTH    64
+#define SCREEN_HEIGHT   32
+
+#define DISPLAY_SPACE   0x100
+#define PROGRAM_SPACE   0x200
+#define STACK_SPACE     0x0EA0
 
 // Types
 typedef unsigned char byte_t;
@@ -25,6 +33,7 @@ int mem_size;
 
 // Display
 byte_t *display;
+int draw_flag;
 
 // Font Set
 byte_t fontset[80] = {
@@ -83,10 +92,14 @@ void print_reg() {
  */
 int initialize() {
     memory = malloc(4096 * sizeof(byte_t));
-    display = &memory[0x200];
+    display = &memory[DISPLAY_SPACE];
+    memset(display, 0, DISPLAY_SIZE);
+
+    draw_flag = 0;
+
     I = 0;
-    pc = 0x0200;
-    sp = 0x0EA0;
+    pc = PROGRAM_SPACE;
+    sp = STACK_SPACE;
     opcode = 0;
 
     delay_timer = 0;
@@ -340,6 +353,8 @@ int complete_cycle() {
         
         cycle_count = 4;
         // TODO: Use OpenGL to draw graphics
+
+        draw_flag = 1;
     }
     else if ((opcode & 0xF000) == 0xE000) {
         byte_t reg = (opcode & 0xF00) >> 8;
