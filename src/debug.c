@@ -10,6 +10,13 @@ void print_mem() {
     printf("\n");
 }
 
+void print_display() {
+    for (int i=0; i < DISPLAY_SIZE; i++) {
+        printf("%x ", display[i]);
+    }
+    printf("\n");
+}
+
 /*
  * Print register values
  */

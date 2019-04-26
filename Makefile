@@ -1,11 +1,12 @@
-C_SOURCES=$(wildcard src/*.c)
+CC=gcc
 
-C_FLAGS= -Iinclude
+C_SOURCES=$(wildcard src/*.c)
+C_FLAGS= -g -Iinclude -lGL -lglut
 
 all: emulator.o
 
 emulator.o:
-	gcc -o emulator.o $(C_FLAGS) $(C_SOURCES)
+	${CC} -o emulator.o $(C_SOURCES) $(C_FLAGS)
 
 clean:
 	rm *.o

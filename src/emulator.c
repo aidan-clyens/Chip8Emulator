@@ -8,6 +8,7 @@
 #include "stack.h"
 #include "file.h"
 #include "debug.h"
+#include "graphics.h"
 
 // Registers
 byte_t v[16];
@@ -54,15 +55,17 @@ byte_t delay_timer;
 // Misc.
 int cycle_count;
 
-// Debug
+void game_loop();
 
 /*
  * Initialize CPU registers
  */
-int initialize() {
+int initialize(int argc, char **argv) {
     memory = malloc(4096 * sizeof(byte_t));
     display = &memory[DISPLAY_SPACE];
     memset(display, 0, DISPLAY_SIZE);
+
+    init_graphics(argc, argv, game_loop);
 
     draw_flag = 0;
 
@@ -257,7 +260,8 @@ int complete_cycle() {
         #endif
         
         cycle_count = 4;
-        // TODO: Use OpenGL to draw graphics
+        // TODO: Use SDL to draw graphics
+        load_sprite(v[x], v[y], N);
 
         draw_flag = 1;
     }
@@ -337,6 +341,18 @@ int complete_cycle() {
     return 1;
 }
 
+void game_loop() {
+    complete_cycle();
+
+    if (draw_flag) {
+        draw_flag = 0;
+
+        draw();
+    }
+
+    usleep(1000 * REFRESH_RATE_MS);
+}
+
 int main(int argc, char **argv) {
     if (argc < 2) {
         printf("Enter a game name.\n");
@@ -346,15 +362,12 @@ int main(int argc, char **argv) {
     char *game_name = argv[1];
     time_t t;
 
-    initialize();
+    initialize(argc, argv);
     read_file(game_name);
 
     srand((unsigned) time(&t));
 
-    for (;;) {
-        complete_cycle();
-        usleep(1000*50);
-    }
+    update_screen();
 
     free(memory);
 
