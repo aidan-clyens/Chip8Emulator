@@ -1,6 +1,12 @@
 # Chip 8 Emulator
 A Chip 8 decompiler written in C.
 
+## Getting Started
+### Installing Dependencies
+```
+sudo apt install freeglut3-dev
+```
+
 ## References
 Chip8 Manual:
 https://storage.googleapis.com/wzukusers/user-34724694/documents/5c83d6a5aec8eZ0cT194/CHIP-8%20Classic%20Manual%20Rev%201.3.pdf
