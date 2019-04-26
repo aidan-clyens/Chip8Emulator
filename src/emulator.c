@@ -151,6 +151,7 @@ int complete_cycle() {
 
         #ifdef DEBUG
         printf("%x      SKF v%x=%x\n", pc, reg, val);
+        printf("%x      v%x=%x\n", pc, reg, v[reg]);
         #endif
 
         if (v[reg] == val) {
@@ -163,6 +164,7 @@ int complete_cycle() {
 
         #ifdef DEBUG
         printf("%x      SKF v%x!=%x\n", pc, reg, val);
+        printf("%x      v%x=%x\n", pc, reg, v[reg]);
         #endif
 
         if (v[reg] != val) {
@@ -239,9 +241,10 @@ int complete_cycle() {
 
         #ifdef DEBUG
         printf("%x      v%x=RAND&%x\n", pc, reg, val);
+        printf("%x      RAND=%x\n", pc, num);
         #endif
 
-        num = num & val;
+        v[reg] = val & num;
     }
     // Draw Sprite
     else if ((opcode & 0xF000) == 0xD000) {
