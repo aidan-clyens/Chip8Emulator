@@ -1,6 +1,10 @@
 #include "graphics.h"
 
-void init_graphics(int argc, char **argv, void *loop) {
+void keyboard_up(byte_t key, int x, int y) {
+    key_pressed = -1;
+}
+
+void init_graphics(int argc, char **argv, void *loop, void *keypress) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -9,6 +13,9 @@ void init_graphics(int argc, char **argv, void *loop) {
 
     glutDisplayFunc(draw);
     glutIdleFunc(loop);
+    glutKeyboardFunc(keypress);
+    glutKeyboardUpFunc(keyboard_up);
+    glutSetKeyRepeat(0);
 
     glClear(GL_COLOR_BUFFER_BIT);
     memset(screen, BLACK, SCREEN_WIDTH * SCREEN_HEIGHT * 3);

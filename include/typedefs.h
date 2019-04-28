@@ -34,3 +34,5 @@ extern int mem_size;
 
 extern byte_t *display;
 extern int draw_flag;
+
+extern byte_t key_pressed;

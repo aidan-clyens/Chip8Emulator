@@ -47,7 +47,7 @@ byte_t fontset[80] = {
 };
 
 // Keys
-byte_t key[16];
+byte_t key_pressed;
 
 // Timers
 byte_t delay_timer;
@@ -56,6 +56,7 @@ byte_t delay_timer;
 int cycle_count;
 
 void game_loop();
+void on_keypress(byte_t key, int x, int y);
 
 /*
  * Initialize CPU registers
@@ -65,7 +66,7 @@ int initialize(int argc, char **argv) {
     display = &memory[DISPLAY_SPACE];
     memset(display, 0, DISPLAY_SIZE);
 
-    init_graphics(argc, argv, game_loop);
+    init_graphics(argc, argv, game_loop, on_keypress);
 
     draw_flag = 0;
 
@@ -77,6 +78,8 @@ int initialize(int argc, char **argv) {
     delay_timer = 0;
 
     cycle_count = 0;
+
+    key_pressed = -1;
 
     return 1;
 }
@@ -277,7 +280,12 @@ int complete_cycle() {
 
             #ifdef DEBUG
             printf("%x      SKF v%x=KEY\n", pc, reg);
+            printf("         v%x=%x, KEY=%x\n", reg, v[reg], key_pressed);
             #endif
+
+            if (v[reg] == key_pressed) {
+                pc += 2;
+            }
         }
         // Skip if Key is not Down
         else if ((opcode & 0xF0FF) == 0xE0A1) {
@@ -285,7 +293,12 @@ int complete_cycle() {
             
             #ifdef DEBUG
             printf("%x      SKF v%x!=KEY\n", pc, reg);
+            printf("         v%x=%x, KEY=%x\n", reg, v[reg], key_pressed);
             #endif
+
+            if (v[reg] != key_pressed) {
+                pc += 2;
+            }
         }
     }
     else if ((opcode & 0xF000) == 0xF000) {
@@ -354,6 +367,64 @@ void game_loop() {
     }
 
     usleep(1000 * REFRESH_RATE_MS);
+}
+
+void on_keypress(byte_t key, int x, int y) {
+    switch (key) {
+        case '1':
+            key_pressed = 0x1;
+            break;
+        case '2':
+            key_pressed = 0x2;
+            break;
+        case '3':
+            key_pressed = 0x3;
+            break;
+        case '4':
+            key_pressed = 0xC;
+            break;
+        case 'q':
+            key_pressed = 0x4;
+            break;
+        case 'w':
+            key_pressed = 0x5;
+            break;
+        case 'e':
+            key_pressed = 0x6;
+            break;
+        case 'r':
+            key_pressed = 0xD;
+            break;
+        case 'a':
+            key_pressed = 0x7;
+            break;
+        case 's':
+            key_pressed = 0x8;
+            break;
+        case 'd':
+            key_pressed = 0x9;
+            break;
+        case 'f':
+            key_pressed = 0xE;
+            break;
+        case 'z':
+            key_pressed = 0xA;
+            break;
+        case 'x':
+            key_pressed = 0x0;
+            break;
+        case 'c':
+            key_pressed = 0xB;
+            break;
+        case 'v':
+            key_pressed = 0xF;
+            break;
+        default:
+            key_pressed = -1;
+            break;
+    }
+
+    printf("key_pressed=%x\n", key_pressed);
 }
 
 int main(int argc, char **argv) {
