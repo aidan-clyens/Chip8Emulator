@@ -424,7 +424,9 @@ void on_keypress(byte_t key, int x, int y) {
             break;
     }
 
+    #ifdef DEBUG
     printf("key_pressed=%x\n", key_pressed);
+    #endif
 }
 
 int main(int argc, char **argv) {
