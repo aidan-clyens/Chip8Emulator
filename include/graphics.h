@@ -1,3 +1,6 @@
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
+
 #include <string.h>
 #include <GL/gl.h>
 #include <GL/glut.h>
@@ -13,3 +16,5 @@ void draw_pixel(int row, int col, byte_t color);
 void draw_cell(int row, int col, byte_t color);
 void draw();
 void update_screen();
+
+#endif

@@ -1,6 +1,9 @@
 // Definitions
 // Uncomment line below to print disassembled opcodes
-#define DEBUG
+// #define DEBUG
+
+#ifndef TYPE_DEFS_H
+#define TYPE_DEFS_H
 
 #define DISPLAY_SIZE 256
 #define DISPLAY_WIDTH 64
@@ -17,7 +20,7 @@
 #define STACK_SPACE 0x0EA0
 
 #define REFRESH_RATE_HZ 60
-#define REFRESH_RATE_MS (1 / REFRESH_RATE_HZ) * 1000
+#define REFRESH_RATE_MS ((1 / REFRESH_RATE_HZ) * 1000)
 
 // Types
 typedef unsigned char byte_t;
@@ -36,3 +39,5 @@ extern byte_t *display;
 extern int draw_flag;
 
 extern byte_t key_pressed;
+
+#endif
