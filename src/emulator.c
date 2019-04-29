@@ -66,6 +66,10 @@ int initialize(int argc, char **argv) {
     display = &memory[DISPLAY_SPACE];
     memset(display, 0, DISPLAY_SIZE);
 
+    for (int i=0; i < 80; i++) {
+        memory[i] = fontset[i];
+    }
+
     init_graphics(argc, argv, game_loop, on_keypress);
 
     draw_flag = 0;
