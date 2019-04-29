@@ -114,7 +114,9 @@ int complete_cycle() {
         #ifdef DEBUG
         printf("%x      ERASE\n", pc);
         #endif
-        // Clear screen
+        
+        memset(display, 0, DISPLAY_SIZE);
+        draw_flag = 1;
     }
     // Return from Subroutine
     else if (opcode == 0x00EE) {
