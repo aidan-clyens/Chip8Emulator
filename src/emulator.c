@@ -384,6 +384,74 @@ int complete_cycle() {
 
             delay_timer = v[reg];
         }
+        else if ((opcode & 0xF0FF) == 0xF01E) {
+            byte_t reg = (opcode & 0xF00) >> 8;
+
+            #ifdef DEBUG
+            printf("%x      I=I+v%x\n", pc, reg);
+            #endif
+
+            I += v[reg];
+        }
+        else if ((opcode & 0xF0FF) == 0xF029) {
+            byte_t reg = (opcode & 0xF00) >> 8;
+
+            #ifdef DEBUG
+            printf("%x      I=DSP,v%x\n", pc, reg);
+            printf("         v%x=%x\n", reg, v[reg]);
+            #endif
+
+            cycle_count = 4;
+
+            I = memory[5 * v[reg]];
+        }
+        else if ((opcode & 0xF0FF) == 0xF033) {
+            byte_t reg = (opcode & 0xF00) >> 8;
+
+            #ifdef DEBUG
+            printf("%x      I=DEQ,v%x\n", pc, reg);
+            printf("         v%x\n", reg);
+            #endif
+
+            memory[I] = v[reg] / 100;
+            memory[I + 1] = (v[reg] / 10) % 10;
+            memory[I + 2] = v[reg] % 10;
+
+            cycle_count = 4*3;
+        }
+        else if ((opcode & 0xF0FF) == 0xF055) {
+            byte_t reg = (opcode & 0xF00) >> 8;
+
+            #ifdef DEBUG
+            printf("%x      MI=v0:v%x\n", pc, reg);
+            #endif
+
+            int i;
+            for (i=0; i <= reg; i++) {
+                memory[I+i] = v[i];
+            }
+
+            cycle_count = 4*i;
+        }
+        else if ((opcode & 0xF0FF) == 0xF065) {
+            byte_t reg = (opcode & 0xF00) >> 8;
+
+            #ifdef DEBUG
+            printf("%x      v0:v%x=MI\n", pc, reg);
+            #endif
+
+            int i;
+            for (i=0; i <= reg; i++) {
+                v[i] = memory[I+i];
+            }
+
+            cycle_count = 4*i;
+        }
+        else {
+            #ifdef DEBUG
+            printf("Unknown opcode: %x\n", opcode);
+            #endif
+        }
     }
     else {
         #ifdef DEBUG
