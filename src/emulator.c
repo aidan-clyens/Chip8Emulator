@@ -231,6 +231,45 @@ int complete_cycle() {
 
             v[regX] = v[regX] & v[regY];
         }
+        else if ((opcode & 0xF00F) == 0x8003) {
+            #ifdef DEBUG
+            printf("%x      v%x=v%xXORv%x\n", pc, regX, regX, regY);
+            #endif
+
+            v[regX] = v[regX] ^ v[regY];
+        }
+        else if ((opcode & 0xF00F) == 0x8004) {
+            #ifdef DEBUG
+            printf("%x      v%x=v%x+v%x\n", pc, regX, regX, regY);
+            #endif
+
+            v[regX] = v[regX] + v[regY];
+        }
+        else if ((opcode & 0xF00F) == 0x8005) {
+            #ifdef DEBUG
+            printf("%x      v%x=v%x-v%x\n", pc, regX, regX, regY);
+            #endif
+
+            v[regX] = v[regX] - v[regY];
+        }
+        else {
+            #ifdef DEBUG
+            printf("Unknown opcode: %x\n", opcode);
+            #endif
+        }
+    }
+    // Skip Instruction
+    else if ((opcode & 0xF00F) == 0x9000) {
+        byte_t regX = (opcode & 0xF00) >> 8;
+        byte_t regY = (opcode & 0xF0) >> 4;
+
+        #ifdef DEBUG
+        printf("%x      SKF v%x!=v%x\n", pc, regX, regY);
+        #endif
+
+        if (v[regX] != v[regY]) {
+            pc += 2;
+        }
     }
     // Set Memory Pointer
     else if ((opcode & 0xF000) == 0xA000) {
