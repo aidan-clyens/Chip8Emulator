@@ -19,9 +19,6 @@
 #define PROGRAM_SPACE 0x200
 #define STACK_SPACE 0x0EA0
 
-#define REFRESH_RATE_HZ 60
-#define REFRESH_RATE_MS ((1 / REFRESH_RATE_HZ) * 1000)
-
 // Types
 typedef unsigned char byte_t;
 typedef unsigned short word_t;
