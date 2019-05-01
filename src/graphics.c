@@ -25,8 +25,6 @@ void load_sprite(int x, int y, int N) {
     int byte_index = x / 8;
     int bit_shift = x % 8;
 
-    v[0xF] = 0;
-
     for (int yline = 0; yline < N; yline++) {
         byte_t pixel = memory[I + yline];
         byte_t next_mask = 0;
@@ -38,11 +36,15 @@ void load_sprite(int x, int y, int N) {
         }
 
         display[row_offset + byte_index] ^= pixel;
-        display[row_offset + byte_index + 1] |= next_mask;
+        display[row_offset + byte_index + 1] ^= next_mask;
     }
 }
 
 void draw_pixel(int row, int col, byte_t color) {
+    if (screen[row][col][0] == WHITE) {
+        v[0xF] = 1;
+    }
+
     row = SCREEN_HEIGHT - 1 - row;
     screen[row][col][0] = screen[row][col][1] = screen[row][col][2] = color;
 }
@@ -67,6 +69,7 @@ void draw() {
 
     glClear(GL_COLOR_BUFFER_BIT);
 
+    memset(screen, BLACK, SCREEN_HEIGHT * SCREEN_WIDTH * 3);
     for (int i = 0; i < DISPLAY_SIZE; i++) {
         for (int j = 7; j >= 0; j--) {
             byte_t pixel = (display[i] >> j) & 0x1;
