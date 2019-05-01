@@ -10,6 +10,9 @@
 #include "debug.h"
 #include "graphics.h"
 
+const int REFRESH_RATE_HZ = 60;
+double refresh_rate;
+
 // Registers
 byte_t v[16];
 word_t I;
@@ -84,6 +87,8 @@ int initialize(int argc, char **argv) {
     cycle_count = 0;
 
     key_pressed = -1;
+
+    refresh_rate = 1000 * (1.0 / REFRESH_RATE_HZ);
 
     return 1;
 }
