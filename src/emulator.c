@@ -10,7 +10,7 @@
 #include "debug.h"
 #include "graphics.h"
 
-const int REFRESH_RATE_HZ = 60;
+const int REFRESH_RATE_HZ = 150;
 double refresh_rate;
 
 // Registers
@@ -88,7 +88,7 @@ int initialize(int argc, char **argv) {
 
     key_pressed = -1;
 
-    refresh_rate = 1000 * (1.0 / REFRESH_RATE_HZ);
+    refresh_rate = 1000.0 / REFRESH_RATE_HZ;
 
     return 1;
 }
@@ -562,7 +562,7 @@ void game_loop() {
         draw();
     }
 
-    usleep(1000 * REFRESH_RATE_MS);
+    usleep(1000 * refresh_rate);
 }
 
 void on_keypress(byte_t key, int x, int y) {
