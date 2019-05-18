@@ -11,7 +11,7 @@ sudo apt install freeglut3-dev
 1)`git clone git@github.com:aidan-clyens/Chip8Emulator.git`</br>
 2) Build with `make`</br>
 3) Check list of CHIP-8 games in [c8games](/c8games) folder.</br>
-Run with `./emulator 'GAME'`, for example `./emulator PONG`</br>
+Run with `./emulator GAME`, for example `./emulator PONG`</br>
 
 ## References
 Chip8 Manual:
