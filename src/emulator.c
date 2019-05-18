@@ -562,7 +562,7 @@ void game_loop() {
         draw();
     }
 
-    usleep(1000 * REFRESH_RATE_MS);
+    usleep(1000 * refresh_rate);
 }
 
 void on_keypress(byte_t key, int x, int y) {
