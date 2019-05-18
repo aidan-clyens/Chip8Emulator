@@ -1,11 +1,17 @@
-# Chip 8 Emulator
-A Chip 8 decompiler written in C.
+# CHIP 8 Emulator
+A CHIP 8 decompiler and emulator written in C.
 
 ## Getting Started
 ### Installing Dependencies
 ```
 sudo apt install freeglut3-dev
 ```
+
+### Setup
+1)`git clone git@github.com:aidan-clyens/Chip8Emulator.git`
+2) Build with `make`
+3) Check list of CHIP-8 games in [c8games](/c8games) folder.
+Run with `./emulator 'GAME'`, for example `./emulator PONG`
 
 ## References
 Chip8 Manual:
