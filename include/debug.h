@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "typedefs.h"
+#include "mem.h"
 
 void print_mem();
 void print_display();

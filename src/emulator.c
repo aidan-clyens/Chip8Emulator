@@ -9,6 +9,7 @@
 #include "file.h"
 #include "debug.h"
 #include "graphics.h"
+#include "mem.h"
 
 const int REFRESH_RATE_HZ = 150;
 double refresh_rate;
@@ -20,10 +21,6 @@ word_t pc;
 word_t sp;
 
 word_t opcode;
-
-// Memory
-byte_t *memory;
-int mem_size;
 
 // Display
 byte_t *display;
@@ -65,12 +62,11 @@ void on_keypress(byte_t key, int x, int y);
  * Initialize CPU registers
  */
 int initialize(int argc, char **argv) {
-    memory = malloc(4096 * sizeof(byte_t));
-    display = &memory[DISPLAY_SPACE];
-    memset(display, 0, DISPLAY_SIZE);
+    mem_init();
 
+    // Load fontset
     for (int i=0; i < 80; i++) {
-        memory[i] = fontset[i];
+        mem_write(i, fontset[i]);
     }
 
     init_graphics(argc, argv, game_loop, on_keypress);
@@ -103,7 +99,7 @@ int complete_cycle() {
     }
 
     // Get opcode from program memory
-    opcode = (memory[pc] << 8) | memory[pc+1];
+    opcode = (mem_read(pc) << 8) | mem_read(pc+1);
     word_t val_word;
     byte_t val_byte;
     byte_t reg;
@@ -378,7 +374,7 @@ int complete_cycle() {
 
             printf("         ");
             for (int j=0; j<N; j++) {
-                printf("%x", memory[I+j]);
+                printf("%x", mem_read(I+j));
             }
             printf("\n");
             #endif
@@ -501,9 +497,9 @@ int complete_cycle() {
                     printf("         v%x\n", reg);
                     #endif
 
-                    memory[I] = v[reg] / 100;
-                    memory[I + 1] = (v[reg] / 10) % 10;
-                    memory[I + 2] = v[reg] % 10;
+                    mem_write(I, v[reg] / 100);
+                    mem_write(I + 1, (v[reg] / 10) % 10);
+                    mem_write(I + 2, v[reg] % 10);
 
                     break;
 
@@ -513,7 +509,7 @@ int complete_cycle() {
                     #endif
 
                     for (i=0; i <= reg; i++) {
-                        memory[I+i] = v[i];
+                        mem_write(I+i, v[i]);
                     }
 
                     cycle_count = 4*i;
@@ -526,7 +522,7 @@ int complete_cycle() {
                     #endif
 
                     for (i=0; i <= reg; i++) {
-                        v[i] = memory[I+i];
+                        v[i] = mem_read(I+i);
                     }
 
                     break;
@@ -641,7 +637,7 @@ int main(int argc, char **argv) {
 
     update_screen();
 
-    free(memory);
+    mem_free();
 
     return 0;
 }

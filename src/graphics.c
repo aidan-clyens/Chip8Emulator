@@ -26,7 +26,7 @@ void load_sprite(int x, int y, int N) {
     int bit_shift = x % 8;
 
     for (int yline = 0; yline < N; yline++) {
-        byte_t pixel = memory[I + yline];
+        byte_t pixel = mem_read(I + yline);
         byte_t next_mask = 0;
         int row_offset = 8 * y + 8 * yline;
 

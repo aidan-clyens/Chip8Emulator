@@ -7,6 +7,7 @@
 
 #include "typedefs.h"
 #include "debug.h"
+#include "mem.h"
 
 byte_t screen[SCREEN_HEIGHT][SCREEN_WIDTH][3];
 

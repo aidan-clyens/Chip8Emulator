@@ -15,8 +15,8 @@ int read_file(char *game_name) {
 
     word_t i = pc;
     while (fread(buffer, sizeof(buffer), 1, file) != 0) {
-        memory[i] = buffer[0];
-        memory[i + 1] = buffer[1];
+        mem_write(i, buffer[0]);
+        mem_write(i + 1, buffer[1]);
 
         i += 2;
     }

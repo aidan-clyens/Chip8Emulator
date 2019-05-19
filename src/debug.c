@@ -5,7 +5,7 @@
  */
 void print_mem() {
     for (int j = 0; j < mem_size; j++) {
-        printf("%x ", memory[j]);
+        printf("%x ", mem_read(j));
     }
     printf("\n");
 }
