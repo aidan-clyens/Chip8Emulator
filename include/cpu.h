@@ -15,9 +15,9 @@ word_t sp;
 // Timers
 byte_t delay_timer;
 
-void init_cpu();
-void complete_cycle();
-void run_instruction(word_t opcode);
-word_t get_opcode();
+void cpu_init();
+void cpu_complete_cycle();
+void cpu_run_instruction(word_t opcode);
+word_t cpu_get_opcode();
 
 #endif // CPU_H

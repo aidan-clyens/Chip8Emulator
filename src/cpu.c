@@ -1,6 +1,6 @@
 #include "cpu.h"
 
-void init_cpu() {
+void cpu_init() {
     I = 0;
     pc = PROGRAM_SPACE;
     sp = STACK_SPACE;
@@ -8,10 +8,10 @@ void init_cpu() {
     delay_timer = 0;
 }
 
-void complete_cycle() {
+void cpu_complete_cycle() {
     // Get opcode from program memory
-    word_t opcode = get_opcode();
-    run_instruction(opcode);
+    word_t opcode = cpu_get_opcode();
+    cpu_run_instruction(opcode);
 
     // Decrement timers
     if (delay_timer > 0) {
@@ -22,7 +22,7 @@ void complete_cycle() {
     pc += 2;
 }
 
-void run_instruction(word_t opcode) {
+void cpu_run_instruction(word_t opcode) {
     word_t val_word;
     byte_t val_byte;
     byte_t reg;
@@ -459,6 +459,6 @@ void run_instruction(word_t opcode) {
     }
 }
 
-word_t get_opcode() {
+word_t cpu_get_opcode() {
     return (mem_read(pc) << 8) | mem_read(pc + 1);
 }

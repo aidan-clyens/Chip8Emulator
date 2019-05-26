@@ -56,7 +56,7 @@ int initialize(int argc, char **argv) {
 
     init_graphics(argc, argv, game_loop, on_keypress);
     
-    init_cpu();
+    cpu_init();
 
     draw_flag = 0;
 
@@ -68,7 +68,7 @@ int initialize(int argc, char **argv) {
 }
 
 void game_loop() {
-    complete_cycle();
+    cpu_complete_cycle();
 
     if (draw_flag) {
         draw_flag = 0;
