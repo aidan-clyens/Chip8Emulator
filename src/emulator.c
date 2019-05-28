@@ -9,9 +9,9 @@
 #include "graphics.h"
 #include "mem.h"
 #include "cpu.h"
+#include "utils.h"
 
-const int REFRESH_RATE_HZ = 150;
-double refresh_rate;
+double cpu_period_us;
 
 // Display
 byte_t *display;
@@ -62,13 +62,18 @@ int initialize(int argc, char **argv) {
 
     key_pressed = -1;
 
-    refresh_rate = 1000.0 / REFRESH_RATE_HZ;
+    cpu_period_us = 1000.0 / CPU_CLOCK_HZ;
 
     return 1;
 }
 
 void game_loop() {
-    cpu_complete_cycle();
+    int cpu_cycle_elapsed_time = cpu_complete_cycle();
+    double delay_time = 0;
+    
+    if (cpu_cycle_elapsed_time < cpu_period_us) {
+        delay_time = cpu_period_us - cpu_cycle_elapsed_time;
+    }
 
     if (graphics_draw_flag) {
         graphics_draw_flag = 0;
@@ -76,7 +81,7 @@ void game_loop() {
         graphics_draw();
     }
 
-    usleep(1000 * refresh_rate);
+    usleep(delay_time);
 }
 
 void on_keypress(byte_t key, int x, int y) {

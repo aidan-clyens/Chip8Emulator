@@ -8,7 +8,8 @@ void cpu_init() {
     delay_timer = 0;
 }
 
-void cpu_complete_cycle() {
+int cpu_complete_cycle() {
+    long start_time = utils_get_time_us();
     // Get opcode from program memory
     word_t opcode = cpu_get_opcode();
     cpu_run_instruction(opcode);
@@ -20,6 +21,10 @@ void cpu_complete_cycle() {
 
     // Increment Program Counter
     pc += 2;
+
+    long end_time = utils_get_time_us();
+
+    return end_time - start_time;
 }
 
 void cpu_run_instruction(word_t opcode) {

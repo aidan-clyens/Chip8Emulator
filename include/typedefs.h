@@ -19,6 +19,8 @@
 #define PROGRAM_SPACE 0x200
 #define STACK_SPACE 0x0EA0
 
+#define CPU_CLOCK_HZ 150
+
 // Types
 typedef unsigned char byte_t;
 typedef unsigned short word_t;
