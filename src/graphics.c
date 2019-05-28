@@ -4,14 +4,14 @@ void keyboard_up(byte_t key, int x, int y) {
     key_pressed = -1;
 }
 
-void init_graphics(int argc, char **argv, void *loop, void *keypress) {
+void graphics_init(int argc, char **argv, void *loop, void *keypress) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("CHIP 8 EMULATOR");
 
-    glutDisplayFunc(draw);
+    glutDisplayFunc(graphics_draw);
     glutIdleFunc(loop);
     glutKeyboardFunc(keypress);
     glutKeyboardUpFunc(keyboard_up);
@@ -21,7 +21,7 @@ void init_graphics(int argc, char **argv, void *loop, void *keypress) {
     memset(screen, BLACK, SCREEN_WIDTH * SCREEN_HEIGHT * 3);
 }
 
-void load_sprite(int x, int y, int N) {
+void graphics_load_sprite(int x, int y, int N) {
     int byte_index = x / 8;
     int bit_shift = x % 8;
 
@@ -40,7 +40,7 @@ void load_sprite(int x, int y, int N) {
     }
 }
 
-void draw_pixel(int row, int col, byte_t color) {
+void graphics_load_pixel(int row, int col, byte_t color) {
     if (screen[row][col][0] == WHITE) {
         v[0xF] = 1;
     }
@@ -49,20 +49,20 @@ void draw_pixel(int row, int col, byte_t color) {
     screen[row][col][0] = screen[row][col][1] = screen[row][col][2] = color;
 }
 
-void draw_cell(int row, int col, byte_t color) {
+void graphic_graphics_draw_cell(int row, int col, byte_t color) {
     int pixel_row = row * PIXEL_SIZE;
     int pixel_col = col * PIXEL_SIZE;
 
-    draw_pixel(pixel_row, pixel_col, color);
+    graphics_load_pixel(pixel_row, pixel_col, color);
 
     for (int i = 0; i < PIXEL_SIZE; i++) {
         for (int j = 0; j < PIXEL_SIZE; j++) {
-            draw_pixel(pixel_row + i, pixel_col + j, color);
+            graphics_load_pixel(pixel_row + i, pixel_col + j, color);
         }
     }
 }
 
-void draw() {
+void graphics_draw() {
     int row = 0;
     int col = 0;
     int index = 0;
@@ -75,7 +75,7 @@ void draw() {
             byte_t pixel = (display[i] >> j) & 0x1;
             byte_t color = (pixel == 1) ? WHITE : BLACK;
 
-            draw_cell(row, col, color);
+            graphic_graphics_draw_cell(row, col, color);
 
             index++;
 
@@ -93,6 +93,6 @@ void draw() {
     glutSwapBuffers();
 }
 
-void update_screen() {
+void graphics_update_screen() {
     glutMainLoop();
 }

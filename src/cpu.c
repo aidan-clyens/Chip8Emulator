@@ -47,7 +47,7 @@ void cpu_run_instruction(word_t opcode) {
             #endif
 
             memset(display, 0, DISPLAY_SIZE);
-            draw_flag = 1;
+            graphics_draw_flag = 1;
             break;
 
         // Return from Subroutine
@@ -305,9 +305,9 @@ void cpu_run_instruction(word_t opcode) {
 
         v[0xF] = 0;
 
-        load_sprite(v[x], v[y], N);
+        graphics_load_sprite(v[x], v[y], N);
 
-        draw_flag = 1;
+        graphics_draw_flag = 1;
 
         break;
 

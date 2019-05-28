@@ -33,7 +33,7 @@ extern byte_t *memory;
 extern int mem_size;
 
 extern byte_t *display;
-extern int draw_flag;
+extern int graphics_draw_flag;
 
 extern byte_t key_pressed;
 

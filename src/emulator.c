@@ -15,7 +15,7 @@ double refresh_rate;
 
 // Display
 byte_t *display;
-int draw_flag;
+int graphics_draw_flag;
 
 // Font Set
 byte_t fontset[80] = {
@@ -54,11 +54,11 @@ int initialize(int argc, char **argv) {
         mem_write(i, fontset[i]);
     }
 
-    init_graphics(argc, argv, game_loop, on_keypress);
+    graphics_init(argc, argv, game_loop, on_keypress);
     
     cpu_init();
 
-    draw_flag = 0;
+    graphics_draw_flag = 0;
 
     key_pressed = -1;
 
@@ -70,10 +70,10 @@ int initialize(int argc, char **argv) {
 void game_loop() {
     cpu_complete_cycle();
 
-    if (draw_flag) {
-        draw_flag = 0;
+    if (graphics_draw_flag) {
+        graphics_draw_flag = 0;
 
-        draw();
+        graphics_draw();
     }
 
     usleep(1000 * refresh_rate);
@@ -153,7 +153,7 @@ int main(int argc, char **argv) {
 
     srand((unsigned) time(&t));
 
-    update_screen();
+    graphics_update_screen();
 
     mem_free();
 
