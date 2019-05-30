@@ -4,8 +4,11 @@ void keyboard_up(uint8_t key, int x, int y) {
     key_pressed = -1;
 }
 
-void graphics_init(int argc, char **argv, void *loop, void *keypress) {
-    glutInit(&argc, argv);
+void graphics_init(void *loop, void *keypress) {
+    int argc = 1;
+    char *argv = {"emulator.o"};
+
+    glutInit(&argc, &argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA);
     glutInitWindowSize(SCREEN_WIDTH, SCREEN_HEIGHT);
     glutInitWindowPosition(0, 0);

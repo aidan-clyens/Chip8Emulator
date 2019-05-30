@@ -9,7 +9,7 @@ int main(int argc, char **argv) {
     char *game_name = argv[1];
     time_t t;
 
-    chip8_initialize(argc, argv);
+    chip8_initialize();
     read_file(game_name);
 
     srand((unsigned) time(&t));

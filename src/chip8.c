@@ -23,7 +23,7 @@ const uint8_t fontset[] = {
 /*
  * Initialize CPU registers
  */
-void chip8_initialize(int argc, char **argv) {
+void chip8_initialize() {
     mem_init();
 
     // Load fontset
@@ -31,7 +31,7 @@ void chip8_initialize(int argc, char **argv) {
         mem_write(i, fontset[i]);
     }
 
-    graphics_init(argc, argv, chip8_game_loop, chip8_on_keypress);
+    graphics_init(chip8_game_loop, chip8_on_keypress);
 
     cpu_init();
 

@@ -16,7 +16,7 @@ uint8_t screen[SCREEN_HEIGHT][SCREEN_WIDTH][3];
 uint8_t *graphics_display;
 int graphics_draw_flag;
 
-void graphics_init(int argc, char **argv, void *loop, void *keypress);
+void graphics_init(void *loop, void *keypress);
 void graphics_load_sprite(int x, int y, int N);
 void graphics_load_pixel(int row, int col, uint8_t color);
 void graphic_graphics_draw_cell(int row, int col, uint8_t color);
