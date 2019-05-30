@@ -3,7 +3,7 @@
 /*
  * Push to stack
  */
-int stack_push(uint16_t val) {
+void stack_push(uint16_t val) {
     // If val is a word
     if (val > 0xFF) {
         uint8_t high = (val & 0xFF00) >> 8;
