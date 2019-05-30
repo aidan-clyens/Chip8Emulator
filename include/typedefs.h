@@ -15,6 +15,8 @@
 #define WHITE 0xFF
 #define BLACK 0
 
+#define MEMORY_SIZE 4096
+
 #define DISPLAY_SPACE 0x100
 #define PROGRAM_SPACE 0x200
 #define STACK_SPACE 0x0EA0

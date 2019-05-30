@@ -1,7 +1,7 @@
 #include "mem.h"
 
 void mem_init() {
-    memory = malloc(4096 * sizeof(byte_t));
+    memory = malloc(MEMORY_SIZE * sizeof(byte_t));
     graphics_display = &memory[DISPLAY_SPACE];
     memset(graphics_display, 0, DISPLAY_SIZE);
 }
