@@ -1,7 +1,7 @@
 CC=gcc
 
 C_SOURCES=$(wildcard src/*.c)
-C_FLAGS= -g -Iinclude -lGL -lglut
+C_FLAGS= -g -Wall -Iinclude -lGL -lglut
 
 all: emulator.o
 
