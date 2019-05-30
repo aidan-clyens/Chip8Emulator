@@ -1,7 +1,7 @@
 #include "chip8.h"
 
 // Font Set
-const byte_t fontset[] = {
+const uint8_t fontset[] = {
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
     0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
@@ -65,7 +65,7 @@ void chip8_game_loop() {
     usleep(delay_time);
 }
 
-void chip8_on_keypress(byte_t key, int x, int y) {
+void chip8_on_keypress(uint8_t key, int x, int y) {
     switch (key) {
     case '1':
         key_pressed = 0x1;

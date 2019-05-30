@@ -5,7 +5,7 @@
  */
 int read_file(char *game_name) {
     char file_path[strlen("c8games/") + strlen(game_name) + 1];
-    byte_t buffer[2];
+    uint8_t buffer[2];
     FILE *file;
 
     strcpy(file_path, "c8games/");
@@ -13,7 +13,7 @@ int read_file(char *game_name) {
 
     file = fopen(file_path, "rb");
 
-    word_t i = pc;
+    uint16_t i = pc;
     while (fread(buffer, sizeof(buffer), 1, file) != 0) {
         mem_write(i, buffer[0]);
         mem_write(i + 1, buffer[1]);

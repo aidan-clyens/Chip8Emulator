@@ -11,7 +11,7 @@ void cpu_init() {
 int cpu_complete_cycle() {
     long start_time = utils_get_time_us();
     // Get opcode from program memory
-    word_t opcode = cpu_get_opcode();
+    uint16_t opcode = cpu_get_opcode();
     cpu_run_instruction(opcode);
 
     // Decrement timers
@@ -27,12 +27,12 @@ int cpu_complete_cycle() {
     return end_time - start_time;
 }
 
-void cpu_run_instruction(word_t opcode) {
-    word_t val_word;
-    byte_t val_byte;
-    byte_t reg;
-    byte_t regX;
-    byte_t regY;
+void cpu_run_instruction(uint16_t opcode) {
+    uint16_t val_word;
+    uint8_t val_byte;
+    uint8_t reg;
+    uint8_t regX;
+    uint8_t regY;
 
     switch (opcode & 0xF000) {
     case 0x0000:;
@@ -62,8 +62,8 @@ void cpu_run_instruction(word_t opcode) {
             #endif
 
             // Pop pc from stack
-            byte_t low = stack_pop();
-            byte_t high = stack_pop();
+            uint8_t low = stack_pop();
+            uint8_t high = stack_pop();
 
             pc = (high << 8) | low;
             break;
@@ -279,7 +279,7 @@ void cpu_run_instruction(word_t opcode) {
     case 0xC000:;
         reg = (opcode & 0xF00) >> 8;
         val_byte = opcode & 0xFF;
-        byte_t num = rand() % 256;
+        uint8_t num = rand() % 256;
 
         #ifdef DEBUG
         printf("%x      v%x=RAND&%x\n", pc, reg, val_byte);
@@ -292,9 +292,9 @@ void cpu_run_instruction(word_t opcode) {
 
     // Draw Sprite
     case 0xD000:;
-        byte_t x = (opcode & 0xF00) >> 8;
-        byte_t y = (opcode & 0xF0) >> 4;
-        byte_t N = opcode & 0xF;
+        uint8_t x = (opcode & 0xF00) >> 8;
+        uint8_t y = (opcode & 0xF0) >> 4;
+        uint8_t N = opcode & 0xF;
 
         #ifdef DEBUG
         printf("%x      SPRITE v%x, v%x, %x\n", pc, x, y, N);
@@ -464,6 +464,6 @@ void cpu_run_instruction(word_t opcode) {
     }
 }
 
-word_t cpu_get_opcode() {
+uint16_t cpu_get_opcode() {
     return (mem_read(pc) << 8) | mem_read(pc + 1);
 }

@@ -24,17 +24,17 @@
 #define CPU_CLOCK_HZ 150
 
 // Types
-typedef unsigned char byte_t;
-typedef unsigned short word_t;
+typedef unsigned char uint8_t;
+typedef unsigned short uint16_t;
 
 // Global Variables
-extern byte_t v[16];
-extern word_t I;
-extern word_t pc;
-extern word_t sp;
+extern uint8_t v[16];
+extern uint16_t I;
+extern uint16_t pc;
+extern uint16_t sp;
 
-extern byte_t *graphics_display;
+extern uint8_t *graphics_display;
 
-extern byte_t key_pressed;
+extern uint8_t key_pressed;
 
 #endif

@@ -1,6 +1,6 @@
 #include "graphics.h"
 
-void keyboard_up(byte_t key, int x, int y) {
+void keyboard_up(uint8_t key, int x, int y) {
     key_pressed = -1;
 }
 
@@ -26,8 +26,8 @@ void graphics_load_sprite(int x, int y, int N) {
     int bit_shift = x % 8;
 
     for (int yline = 0; yline < N; yline++) {
-        byte_t pixel = mem_read(I + yline);
-        byte_t next_mask = 0;
+        uint8_t pixel = mem_read(I + yline);
+        uint8_t next_mask = 0;
         int row_offset = 8 * y + 8 * yline;
 
         for (int xline = 0; xline < bit_shift; xline++) {
@@ -40,7 +40,7 @@ void graphics_load_sprite(int x, int y, int N) {
     }
 }
 
-void graphics_load_pixel(int row, int col, byte_t color) {
+void graphics_load_pixel(int row, int col, uint8_t color) {
     if (screen[row][col][0] == WHITE) {
         v[0xF] = 1;
     }
@@ -49,7 +49,7 @@ void graphics_load_pixel(int row, int col, byte_t color) {
     screen[row][col][0] = screen[row][col][1] = screen[row][col][2] = color;
 }
 
-void graphic_graphics_draw_cell(int row, int col, byte_t color) {
+void graphic_graphics_draw_cell(int row, int col, uint8_t color) {
     int pixel_row = row * PIXEL_SIZE;
     int pixel_col = col * PIXEL_SIZE;
 
@@ -72,8 +72,8 @@ void graphics_draw() {
     memset(screen, BLACK, SCREEN_HEIGHT * SCREEN_WIDTH * 3);
     for (int i = 0; i < DISPLAY_SIZE; i++) {
         for (int j = 7; j >= 0; j--) {
-            byte_t pixel = (graphics_display[i] >> j) & 0x1;
-            byte_t color = (pixel == 1) ? WHITE : BLACK;
+            uint8_t pixel = (graphics_display[i] >> j) & 0x1;
+            uint8_t color = (pixel == 1) ? WHITE : BLACK;
 
             graphic_graphics_draw_cell(row, col, color);
 
