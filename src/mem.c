@@ -2,8 +2,8 @@
 
 void mem_init() {
     memory = malloc(4096 * sizeof(byte_t));
-    display = &memory[DISPLAY_SPACE];
-    memset(display, 0, DISPLAY_SIZE);
+    graphics_display = &memory[DISPLAY_SPACE];
+    memset(graphics_display, 0, DISPLAY_SIZE);
 }
 
 void mem_free() {

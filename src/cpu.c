@@ -51,7 +51,7 @@ void cpu_run_instruction(word_t opcode) {
             printf("%x      ERASE\n", pc);
             #endif
 
-            memset(display, 0, DISPLAY_SIZE);
+            memset(graphics_display, 0, DISPLAY_SIZE);
             graphics_draw_flag = 1;
             break;
 

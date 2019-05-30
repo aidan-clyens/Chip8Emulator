@@ -12,6 +12,10 @@
 
 byte_t screen[SCREEN_HEIGHT][SCREEN_WIDTH][3];
 
+// Display
+byte_t *graphics_display;
+int graphics_draw_flag;
+
 void graphics_init(int argc, char **argv, void *loop, void *keypress);
 void graphics_load_sprite(int x, int y, int N);
 void graphics_load_pixel(int row, int col, byte_t color);

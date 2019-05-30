@@ -12,7 +12,7 @@ void print_mem() {
 
 void print_display() {
     for (int i=0; i < DISPLAY_SIZE; i++) {
-        printf("%x ", display[i]);
+        printf("%x ", graphics_display[i]);
     }
     printf("\n");
 }

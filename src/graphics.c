@@ -35,8 +35,8 @@ void graphics_load_sprite(int x, int y, int N) {
             pixel = pixel >> 1;
         }
 
-        display[row_offset + byte_index] ^= pixel;
-        display[row_offset + byte_index + 1] ^= next_mask;
+        graphics_display[row_offset + byte_index] ^= pixel;
+        graphics_display[row_offset + byte_index + 1] ^= next_mask;
     }
 }
 
@@ -72,7 +72,7 @@ void graphics_draw() {
     memset(screen, BLACK, SCREEN_HEIGHT * SCREEN_WIDTH * 3);
     for (int i = 0; i < DISPLAY_SIZE; i++) {
         for (int j = 7; j >= 0; j--) {
-            byte_t pixel = (display[i] >> j) & 0x1;
+            byte_t pixel = (graphics_display[i] >> j) & 0x1;
             byte_t color = (pixel == 1) ? WHITE : BLACK;
 
             graphic_graphics_draw_cell(row, col, color);
