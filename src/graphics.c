@@ -52,7 +52,7 @@ void graphics_load_pixel(int row, int col, uint8_t color) {
     screen[row][col][0] = screen[row][col][1] = screen[row][col][2] = color;
 }
 
-void graphic_graphics_draw_cell(int row, int col, uint8_t color) {
+void graphics_draw_cell(int row, int col, uint8_t color) {
     int pixel_row = row * PIXEL_SIZE;
     int pixel_col = col * PIXEL_SIZE;
 
@@ -78,7 +78,7 @@ void graphics_draw() {
             uint8_t pixel = (graphics_display[i] >> j) & 0x1;
             uint8_t color = (pixel == 1) ? WHITE : BLACK;
 
-            graphic_graphics_draw_cell(row, col, color);
+            graphics_draw_cell(row, col, color);
 
             index++;
 
