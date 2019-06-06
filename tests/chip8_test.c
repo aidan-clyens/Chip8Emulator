@@ -459,6 +459,45 @@ START_TEST(opcode_reg_bitshift) {
 }
 END_TEST
 
+// 0x9XY0
+START_TEST(opcode_skip_not_equal) {
+    chip8_initialize(test_game);
+
+    uint16_t opcode = 0x9000;
+    uint8_t regX = rand() % 0xE;
+    uint8_t regY = (rand() % 0x6) + 0x9;
+
+    uint16_t curr_pc = pc;
+    uint8_t x, y;
+
+    opcode |= (regX << 8);
+    opcode |= (regY << 4);
+
+    // Skip
+    x = 0x4A;
+    y = 0x1F;
+
+    v[regX] = x;
+    v[regY] = y;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, curr_pc + 2);
+    curr_pc = pc;
+
+    // Don't Skip
+    x = 0x4A;
+    y = 0x4A;
+
+    v[regX] = x;
+    v[regY] = y;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, curr_pc);
+
+    chip8_close();
+}
+END_TEST
+
 Suite *chip8_suite() {
     Suite *s;
     TCase *tc_init;
@@ -486,6 +525,7 @@ Suite *chip8_suite() {
     tcase_add_test(tc_opcodes, opcode_reg_add);
     tcase_add_test(tc_opcodes, opcode_reg_subtract);
     tcase_add_test(tc_opcodes, opcode_reg_bitshift);
+    tcase_add_test(tc_opcodes, opcode_skip_not_equal);
 
     suite_add_tcase(s, tc_init);
     suite_add_tcase(s, tc_opcodes);
