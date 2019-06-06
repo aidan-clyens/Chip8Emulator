@@ -33,6 +33,7 @@ void cpu_run_instruction(uint16_t opcode) {
     uint8_t reg;
     uint8_t regX;
     uint8_t regY;
+    uint8_t x, y;
 
     switch (opcode & 0xF000) {
     case 0x0000:;
@@ -223,7 +224,11 @@ void cpu_run_instruction(uint16_t opcode) {
             printf("%x      v%x=v%x+v%x\n", pc, regX, regX, regY);
             #endif
 
-            v[regX] = v[regX] + v[regY];
+            x = v[regX];
+            y = v[regY];
+
+            v[regX] = (x + y) & 0xFF;
+            v[0xF] = ((x + y) >> 8) & 0x1;
 
             break;
 
@@ -233,10 +238,15 @@ void cpu_run_instruction(uint16_t opcode) {
             printf("%x      v%x=v%x-v%x\n", pc, regX, regX, regY);
             #endif
 
-            v[regX] = v[regX] - v[regY];
+            x = v[regX];
+            y = v[regY];
+
+            v[regX] = (x - y) & 0xFF;
+            v[0xF] = ((x - y) >> 8) & 0x1;
 
             break;
 
+        // Bit shift 
         case 0x6:;
             #ifdef DEBUG
             printf("%x      v%x=v%x>>1\n", pc, regX, regX);
