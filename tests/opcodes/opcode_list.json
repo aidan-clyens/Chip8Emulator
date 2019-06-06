@@ -1,0 +1,162 @@
+{
+    "0NNN": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "3"
+    },
+    "00E0": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "00EE": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "1NNN": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "3"
+    },
+    "2NNN": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "3"
+    },
+    "3XNN": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "2"
+    },
+    "4XNN": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "2"
+    },
+    "5XY0": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "6XNN": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "2"
+    },
+    "7XNN": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "2"
+    },
+    "8XN0": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "1"
+    },
+    "8XY1": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "8XY2": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "8XY3": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "8XY4": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "8XY5": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "8XY6": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "8XY7": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "8XYE": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "9XY0": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "0"
+    },
+    "ANNN": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "3"
+    },
+    "BNNN": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "3"
+    },
+    "CXNN": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "2"
+    },
+    "DXYN": {
+        "regX": "1",
+        "regY": "1",
+        "const_size": "1"
+    },
+    "EX9E": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "FX0A": {
+        "regX": "0",
+        "regY": "0",
+        "const_size": "3"
+    },
+    "FX1E": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "FX1E": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "FX29": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "FX33": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "FX55": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "0"
+    },
+    "FX65": {
+        "regX": "1",
+        "regY": "0",
+        "const_size": "0"
+    }
+}

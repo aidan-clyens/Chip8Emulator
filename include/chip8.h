@@ -17,7 +17,7 @@
 // Keys
 uint8_t key_pressed;
 
-void chip8_initialize();
+void chip8_initialize(char *game_name);
 void chip8_close();
 void chip8_game_loop();
 void chip8_on_keypress(uint8_t key, int x, int y);

@@ -1,12 +1,17 @@
 CC=gcc
 
 C_SOURCES=$(wildcard src/*.c)
-C_FLAGS= -g -Wall -Iinclude -lGL -lglut
+C_FLAGS= -g -Wall -Iinclude -lGL -lglut `pkg-config --cflags --libs check`
 
-all: emulator.o
+all: main.o
 
-emulator.o:
-	${CC} -o emulator.o $(C_SOURCES) $(C_FLAGS)
+main.o:
+	${CC} -o main.o main.c $(C_SOURCES) $(C_FLAGS)
+
+test:
+	${CC} -o tests/test.o tests/chip8_test.c $(C_SOURCES) $(C_FLAGS)
+	./tests/test.o
+	rm -f tests/test.o
 
 .PHONY: clean
 clean:
