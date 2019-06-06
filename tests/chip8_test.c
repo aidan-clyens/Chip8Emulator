@@ -498,6 +498,22 @@ START_TEST(opcode_skip_not_equal) {
 }
 END_TEST
 
+// 0xANNN
+START_TEST(opcode_mem_assign) {
+    chip8_initialize(test_game);
+
+    uint16_t opcode = 0xA000;
+    uint16_t num = rand() % 0xFFF;
+
+    opcode |= num;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(I, num);
+
+    chip8_close();
+}
+END_TEST
+
 Suite *chip8_suite() {
     Suite *s;
     TCase *tc_init;
@@ -526,6 +542,7 @@ Suite *chip8_suite() {
     tcase_add_test(tc_opcodes, opcode_reg_subtract);
     tcase_add_test(tc_opcodes, opcode_reg_bitshift);
     tcase_add_test(tc_opcodes, opcode_skip_not_equal);
+    tcase_add_test(tc_opcodes, opcode_mem_assign);
 
     suite_add_tcase(s, tc_init);
     suite_add_tcase(s, tc_opcodes);
