@@ -207,6 +207,7 @@ void cpu_run_instruction(uint16_t opcode) {
 
             break;
 
+        // Logical XOR VX and VY
         case 0x3:;
             #ifdef DEBUG
             printf("%x      v%x=v%xXORv%x\n", pc, regX, regX, regY);
@@ -216,6 +217,7 @@ void cpu_run_instruction(uint16_t opcode) {
 
             break;
 
+        // Add VX and VY
         case 0x4:;
             #ifdef DEBUG
             printf("%x      v%x=v%x+v%x\n", pc, regX, regX, regY);
@@ -225,6 +227,7 @@ void cpu_run_instruction(uint16_t opcode) {
 
             break;
 
+        // Subtract VY from VX
         case 0x5:;
             #ifdef DEBUG
             printf("%x      v%x=v%x-v%x\n", pc, regX, regX, regY);
