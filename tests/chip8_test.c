@@ -70,6 +70,45 @@ END_TEST
 /*
  * CHIP-8 Opcode Tests
  */
+// 0x5XY0
+START_TEST(opcode_skip_equal) {
+    chip8_initialize(test_game);
+
+    uint16_t opcode = 0x5000;
+    uint8_t regX = rand() % 0xE;
+    uint8_t regY = (rand() % 0x6) + 0x9;
+
+    uint16_t curr_pc = pc;
+    uint8_t x, y;
+
+    opcode |= (regX << 8);
+    opcode |= (regY << 4);
+
+    // Skip
+    x = 0x4A;
+    y = 0x4A;
+
+    v[regX] = x;
+    v[regY] = y;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, curr_pc + 2);
+    curr_pc = pc;
+
+    // Don't Skip
+    x = 0x4A;
+    y = 0x1F;
+
+    v[regX] = x;
+    v[regY] = y;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, curr_pc);
+
+    chip8_close();
+}
+END_TEST
+
 // 0x6XNN
 START_TEST (opcode_set_vx) {
     chip8_initialize(test_game);
@@ -365,6 +404,7 @@ Suite *chip8_suite() {
     tcase_add_test(tc_init, check_init_file);
 
     tc_opcodes = tcase_create("Opcodes");
+    tcase_add_test(tc_opcodes, opcode_skip_equal);
     tcase_add_test(tc_opcodes, opcode_set_vx);
     tcase_add_test(tc_opcodes, opcode_add_vx);
     tcase_add_test(tc_opcodes, opcode_assign_vx);
