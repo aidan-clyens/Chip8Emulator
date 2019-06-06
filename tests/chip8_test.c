@@ -97,14 +97,17 @@ START_TEST(opcode_add_vx) {
     uint16_t opcode = 0x7000;
     uint8_t regX = rand() % 0xE;
     uint8_t num = rand() % 0xFD;
+    uint8_t result;
 
     v[regX] = 0x02;
 
     opcode |= (regX << 8);
     opcode |= num;
 
+    result = 0x02 + num;
+
     cpu_run_instruction(opcode);
-    ck_assert_int_eq(v[regX], 0x02 + num);
+    ck_assert_int_eq(v[regX], result);
 
     // With overflow
     opcode = 0x7000;
@@ -115,8 +118,10 @@ START_TEST(opcode_add_vx) {
     opcode |= (regX << 8);
     opcode |= num;
 
+    result = 0xFF + num;
+
     cpu_run_instruction(opcode);
-    ck_assert_int_eq(v[regX], 0xFF + num);
+    ck_assert_int_eq(v[regX], result);
 
     chip8_close();
 }
