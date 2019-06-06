@@ -70,6 +70,41 @@ END_TEST
 /*
  * CHIP-8 Opcode Tests
  */
+// 0x3XNN
+START_TEST(opcode_skip_equal_num) {
+    chip8_initialize(test_game);
+
+    uint16_t opcode = 0x3000;
+    uint8_t regX = rand() % 0xE;
+    uint8_t num = rand() % 0xFF;
+
+    uint16_t curr_pc = pc;
+    uint8_t x;
+
+    opcode |= (regX << 8);
+    opcode |= num;
+
+    // Skip
+    x = num;
+
+    v[regX] = x;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, curr_pc + 2);
+    curr_pc = pc;
+
+    // Don't Skip
+    x = num & 0x2;
+
+    v[regX] = x;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, curr_pc);
+
+    chip8_close();
+}
+END_TEST
+
 // 0x4XNN
 START_TEST(opcode_skip_not_equal_num) {
     chip8_initialize(test_game);
@@ -439,6 +474,7 @@ Suite *chip8_suite() {
     tcase_add_test(tc_init, check_init_file);
 
     tc_opcodes = tcase_create("Opcodes");
+    tcase_add_test(tc_opcodes, opcode_skip_equal_num);
     tcase_add_test(tc_opcodes, opcode_skip_not_equal_num);
     tcase_add_test(tc_opcodes, opcode_skip_equal);
     tcase_add_test(tc_opcodes, opcode_set_vx);
