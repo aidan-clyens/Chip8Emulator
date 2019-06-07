@@ -257,6 +257,20 @@ void cpu_run_instruction(uint16_t opcode) {
             v[regX] = v[regX] >> 1;
 
             break;
+        
+        // Subtract VX from VY
+        case 0x7:
+            #ifdef DEBUG
+            printf("%x      v%x=v%x-v%x\n", pc, regX, regY, regX);
+            #endif
+
+            x = v[regX];
+            y = v[regY];
+
+            v[regX] = (y - x) & 0xFF;
+            v[0xF] = ((y - x) >> 8) & 0x1;
+
+            break;
         }
 
         break;

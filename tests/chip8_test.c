@@ -459,6 +459,50 @@ START_TEST(opcode_reg_bitshift) {
 }
 END_TEST
 
+// 0x8XY7
+START_TEST(opcode_reg_subtract2) {
+    chip8_initialize(test_game);
+
+    uint16_t opcode = 0x8007;
+    uint8_t regX = rand() % 0x6;
+    uint8_t regY = (rand() % 0x6) + 0x9;
+
+    uint8_t x, y;
+    uint8_t result, borrow;
+
+    opcode |= (regX << 8);
+    opcode |= (regY << 4);
+
+    // Positive difference
+    x = 0x0E;
+    y = 0xF0;
+    v[regX] = x;
+    v[regY] = y;
+
+    result = (y - x) & 0xFF;
+    borrow = ((y - x) >> 8) & 0x1;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(v[regX], result);
+    ck_assert_int_eq(v[0xF], borrow);
+
+    // Negative difference
+    x = 0xF0;
+    y = 0x0E;
+    v[regX] = x;
+    v[regY] = y;
+
+    result = (y - x) & 0xFF;
+    borrow = ((y - x) >> 8) & 0x1;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(v[regX], result);
+    ck_assert_int_eq(v[0xF], borrow);
+
+    chip8_close();
+}
+END_TEST
+
 // 0x9XY0
 START_TEST(opcode_skip_not_equal) {
     chip8_initialize(test_game);
@@ -541,6 +585,7 @@ Suite *chip8_suite() {
     tcase_add_test(tc_opcodes, opcode_reg_add);
     tcase_add_test(tc_opcodes, opcode_reg_subtract);
     tcase_add_test(tc_opcodes, opcode_reg_bitshift);
+    tcase_add_test(tc_opcodes, opcode_reg_subtract2);
     tcase_add_test(tc_opcodes, opcode_skip_not_equal);
     tcase_add_test(tc_opcodes, opcode_mem_assign);
 
