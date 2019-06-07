@@ -302,6 +302,17 @@ void cpu_run_instruction(uint16_t opcode) {
 
         break;
 
+    case 0xB000:;
+        val_word = opcode & 0xFFF;
+
+        #ifdef DEBUG
+        printf("%x      pc=v0+%x\n", pc, val_word);
+        #endif
+
+        pc = v[0x0] + val_word - 2;
+
+        break;
+
     // Random Byte
     case 0xC000:;
         reg = (opcode & 0xF00) >> 8;

@@ -574,6 +574,27 @@ START_TEST(opcode_mem_assign) {
 }
 END_TEST
 
+
+// 0xBNNN
+START_TEST(opcode_jump_plus_reg) {
+    chip8_initialize(test_game);
+
+    uint16_t opcode = 0xB000;
+    uint16_t num = rand() % 0xFE0;
+    uint16_t result;
+
+    opcode |= num;
+
+    v[0x0] = 0x10;
+    result = v[0x0] + num - 2;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, result);
+
+    chip8_close();
+}
+END_TEST
+
 Suite *chip8_suite() {
     Suite *s;
     TCase *tc_init;
@@ -605,6 +626,7 @@ Suite *chip8_suite() {
     tcase_add_test(tc_opcodes, opcode_reg_subtract2);
     tcase_add_test(tc_opcodes, opcode_skip_not_equal);
     tcase_add_test(tc_opcodes, opcode_mem_assign);
+    tcase_add_test(tc_opcodes, opcode_jump_plus_reg);
 
     suite_add_tcase(s, tc_init);
     suite_add_tcase(s, tc_opcodes);
