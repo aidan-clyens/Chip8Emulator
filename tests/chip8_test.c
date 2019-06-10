@@ -86,6 +86,36 @@ START_TEST(opcode_jump) {
 }
 END_TEST
 
+// 0x2NNN
+START_TEST(opcode_call_subroutine) {
+    chip8_initialize(test_game);
+
+    uint16_t opcode = 0x2000;
+    uint16_t num = (rand() % 0xFFD) + 0x02;
+    uint16_t curr_sp = sp;
+
+    uint8_t pc_high = (pc & 0xFF00) >> 8;
+    uint8_t pc_low = pc & 0xFF;
+
+    opcode |= num;
+
+    cpu_run_instruction(opcode);
+    ck_assert_int_eq(pc, num-2);
+
+    if (pc > 0xFF) {
+        ck_assert_int_eq(sp, curr_sp-4);
+    }
+    else {
+        ck_assert_int_eq(sp, curr_sp-2);
+    }
+
+    ck_assert_int_eq(memory[curr_sp-2], pc_high);
+    ck_assert_int_eq(memory[curr_sp-4], pc_low);
+
+    chip8_close();
+}
+END_TEST
+
 // 0x3XNN
 START_TEST(opcode_skip_equal_num) {
     chip8_initialize(test_game);
@@ -611,6 +641,7 @@ Suite *chip8_suite() {
 
     tc_opcodes = tcase_create("Opcodes");
     tcase_add_test(tc_opcodes, opcode_jump);
+    tcase_add_test(tc_opcodes, opcode_call_subroutine);
     tcase_add_test(tc_opcodes, opcode_skip_equal_num);
     tcase_add_test(tc_opcodes, opcode_skip_not_equal_num);
     tcase_add_test(tc_opcodes, opcode_skip_equal);
